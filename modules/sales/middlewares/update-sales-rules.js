@@ -4,28 +4,24 @@ const checkValidation = require("../../../shared/middlewares/check-validation");
 const updateSalesRules = [
 
   body("branch")
-    .notEmpty()
-    .withMessage("Branch is required")
+    .optional()
     .isString()
     .withMessage("Branch must be a string")
     .trim(),
 
   body("city")
-    .notEmpty()
-    .withMessage("City is required")
+    .optional()
     .isString()
     .withMessage("City must be a string")
     .trim(),
 
   body("cogs")
-    .notEmpty()
-    .withMessage("COGS is required")
+    .optional()
     .isFloat()
     .withMessage("COGS must be an amount"),
 
   body("customerType")
-    .notEmpty()
-    .withMessage("Customer Type is required")
+    .optional()
     .isString()
     .withMessage("Customer Type must be a string")
     .trim(),
@@ -35,77 +31,66 @@ const updateSalesRules = [
     .isDate({ format: 'MM/DD/YYYY', strictMode: false })
     .withMessage("Date must be a valid date"),
 
-body("gender")
-    .notEmpty()
-    .withMessage("Gender is required")
+  body("gender")
+    .optional()
     .isString()
     .withMessage("Gender must be a string")
     .trim(),
 
-body("grossIncome")
-  .notEmpty()
-  .withMessage("Gross Income is required")
-  .isFloat()
-  .withMessage("Gross Income must be an amount"),
+  body("grossIncome")
+    .optional()
+    .isFloat()
+    .withMessage("Gross Income must be an amount"),
 
   body("grossMarginPercentage")
-    .notEmpty()
-    .withMessage("Gross Margin Percentage is required")
+    .optional()
     .isFloat()
     .withMessage("Gross Margin Percentage must be an amount"),
 
   body("invoiceId")
-    .notEmpty()
-    .withMessage("Invoice ID is required")
+    .optional()
     .matches(/^\d{3}-\d{2}-\d{4}$/)
     .withMessage("Invoice ID must be in the format XXX-XX-XXXX"),
 
   body("payment")
-    .notEmpty()
-    .withMessage("Payment is required")
+    .optional()
     .isString()
     .withMessage("Payment must be a string")
     .trim(),
 
   body("productLine")
-    .notEmpty()
-    .withMessage("Product Line is required")
+    .optional()
     .isString()
     .withMessage("Product Line must be a string")
     .trim(),
 
-body("quantity")
-  .notEmpty()
-  .withMessage("Quantity is required")
-  .isInt()
-  .withMessage("Quantity must be an integer"),
+  body("quantity")
+    .optional()
+    .isInt()
+    .withMessage("Quantity must be an integer"),
 
   body("rating")
     .optional()
     .isFloat()
     .withMessage("Rating must be a valid float"),
 
-body("tax")
-  .notEmpty()
-  .withMessage("Tax is required")
-  .isFloat()
-  .withMessage("Tax must be an amount"),
+  body("tax")
+    .optional()
+    .isFloat()
+    .withMessage("Tax must be an amount"),
 
   body("time")
-    .notEmpty()
-    .withMessage("Time is required")
+    .optional()
     .isTime()
     .withMessage("Time must be a valid time"),
 
-body("total")
-  .notEmpty()
-  .withMessage("Total is required")
-  .isFloat()
-  .withMessage("Total must be an amount"),
+  body("total")
+    .optional()
+    .isFloat()
+    .withMessage("Total must be an amount"),
 
   body("unitPrice")
-    .notEmpty()
-    .withMessage("Unit Price is required")
+    .optional()
     .isFloat()
     .withMessage("Unit Price must be an amount"),
 

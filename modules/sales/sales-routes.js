@@ -55,40 +55,43 @@ salesRoute.post("/sales", createSalesRules, async (req, res) => {
     }
 });
 
-// //Update the customer’s fields.
-// salesRoute.put("/customers/:id", updateCustomerRules, async (req, res) => {
-//     const id = req.params.id;
-//     try {
-//         const customer = await CustomerModel.findById(id);
-//         if(customer) {            
-//             await CustomerModel.updateOne(
-//                 { _id: id },
-//                 { $set: req.body },
-//                 { new: true }
-//                 )
-//             res.send(customer);
-//         } else {
-//             res.status(404).send(`404! ${req.method} ${id} not found.`);
-//         }
-//     } catch(error) {
-//         res.status(500).send(`500! ${req.method} ${error}.`);
-//     }
-// });
+//Update a sale's fields.
+//123456789
+//{ "rating": 1 }
+salesRoute.put("/sales/:id", updateSalesRules, async (req, res) => {
+    const id = req.params.id;
+    try {
+        const sale = await SalesModel.findById(id);
+        if(sale) {            
+            await SalesModel.updateOne(
+                { _id: id },
+                { $set: req.body },
+                { new: true }
+                )
+            res.send(sale);
+        } else {
+            res.status(404).send(`404! ${req.method} ${id} not found.`);
+        }
+    } catch(error) {
+        res.status(500).send(`500! ${req.method} ${error}.`);
+    }
+});
 
-// //Delete the customer.
-// sales.delete("/customers/:id", async (req, res) => {
-//     const id = req.params.id;
-//     try {
-//         const customer = await CustomerModel.findById(id);
-//         if(customer) {            
-//             await CustomerModel.deleteOne({ _id: id })
-//             res.send(customer);
-//         } else {
-//             res.status(404).send(`404! ${req.method} ${id} not found.`);
-//         }
-//     } catch(error) {
-//         res.status(500).send(`500! ${req.method} ${error}.`);
-//     }
-// });
+//Delete the sale.
+//123456789
+salesRoute.delete("/sales/:id", async (req, res) => {
+    const id = req.params.id;
+    try {
+        const sale = await SalesModel.findById(id);
+        if(sale) {            
+            await SalesModel.deleteOne({ _id: id })
+            res.send(sale);
+        } else {
+            res.status(404).send(`404! ${req.method} ${id} not found.`);
+        }
+    } catch(error) {
+        res.status(500).send(`500! ${req.method} ${error}.`);
+    }
+});
 
 module.exports = { salesRoute };
