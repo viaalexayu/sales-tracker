@@ -1,8 +1,8 @@
 require('dotenv').config();
 
 const express = require("express");
-const { salesRoute } = require("./sales-routes");
-const connectDB = require("./connect-db");
+const { salesRoute } = require("./modules/sales/sales-routes");
+const connectDB = require("./shared/middlewares/connect-db");
 
 const port = 3000;
 const hostname = "localhost";
