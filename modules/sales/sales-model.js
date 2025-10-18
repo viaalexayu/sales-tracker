@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const SalesSchema = new mongoose.Schema({
-  _id: mongoose.Schema.Types.ObjectId,
+  _id: String,
   branch: String,
   city: String,
   cogs: Number,
@@ -11,7 +11,7 @@ const SalesSchema = new mongoose.Schema({
   grossIncome: Number,
   grossMarginPercentage: Number,
   invoiceId: String,
-  payment: Number,
+  payment: String,
   productLine: String,
   quantity: Number,
   rating: Number,

@@ -1,7 +1,7 @@
 const { body } = require("express-validator");
 const checkValidation = require("../../../shared/middlewares/check-validation");
 
-const createCustomerRules = [
+const createSalesRules = [
 
   body("branch")
     .notEmpty()
@@ -31,9 +31,8 @@ const createCustomerRules = [
     .trim(),
 
   body("date")
-    .notEmpty()
-    .withMessage("Date is required")
-    .isDate()
+    .optional()
+    .isDate({ format: 'MM/DD/YYYY', strictMode: false })
     .withMessage("Date must be a valid date"),
 
 body("gender")
@@ -58,14 +57,15 @@ body("grossIncome")
   body("invoiceId")
     .notEmpty()
     .withMessage("Invoice ID is required")
-    .isFloat()
-    .withMessage("Invoice ID must be an amount"),
+    .matches(/^\d{3}-\d{2}-\d{4}$/)
+    .withMessage("Invoice ID must be in the format XXX-XX-XXXX"),
 
   body("payment")
     .notEmpty()
     .withMessage("Payment is required")
-    .isFloat()
-    .withMessage("Payment must be an amount"),
+    .isString()
+    .withMessage("Payment must be a string")
+    .trim(),
 
   body("productLine")
     .notEmpty()
@@ -103,7 +103,7 @@ body("total")
   .isFloat()
   .withMessage("Total must be an amount"),
 
-  body("unitPrice: Number")
+  body("unitPrice")
     .notEmpty()
     .withMessage("Unit Price is required")
     .isFloat()
@@ -112,4 +112,4 @@ body("total")
   checkValidation,
 ];
 
-module.exports = createCustomerRules;
+module.exports = createSalesRules;

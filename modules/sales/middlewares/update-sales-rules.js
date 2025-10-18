@@ -1,31 +1,115 @@
 const { body } = require("express-validator");
 const checkValidation = require("../../../shared/middlewares/check-validation");
 
-const updateCustomerRules = [
-  body("name")
-    .optional()
+const updateSalesRules = [
+
+  body("branch")
+    .notEmpty()
+    .withMessage("Branch is required")
     .isString()
-    .withMessage("Name must be a string")
+    .withMessage("Branch must be a string")
     .trim(),
 
-  body("email")
-    .optional()
-    .isEmail()
-    .withMessage("Email must be a valid email address")
-    .normalizeEmail(),
-
-  body("phone")
-    .optional()
-    .matches(/^\d{3}-\d{3}-\d{4}$/)
-    .withMessage("Phone number must be in the format XXX-XXX-XXXX"),
-
-  body("address")
-    .optional()
+  body("city")
+    .notEmpty()
+    .withMessage("City is required")
     .isString()
-    .withMessage("Address must be a string")
+    .withMessage("City must be a string")
     .trim(),
+
+  body("cogs")
+    .notEmpty()
+    .withMessage("COGS is required")
+    .isFloat()
+    .withMessage("COGS must be an amount"),
+
+  body("customerType")
+    .notEmpty()
+    .withMessage("Customer Type is required")
+    .isString()
+    .withMessage("Customer Type must be a string")
+    .trim(),
+
+  body("date")
+    .optional()
+    .isDate({ format: 'MM/DD/YYYY', strictMode: false })
+    .withMessage("Date must be a valid date"),
+
+body("gender")
+    .notEmpty()
+    .withMessage("Gender is required")
+    .isString()
+    .withMessage("Gender must be a string")
+    .trim(),
+
+body("grossIncome")
+  .notEmpty()
+  .withMessage("Gross Income is required")
+  .isFloat()
+  .withMessage("Gross Income must be an amount"),
+
+  body("grossMarginPercentage")
+    .notEmpty()
+    .withMessage("Gross Margin Percentage is required")
+    .isFloat()
+    .withMessage("Gross Margin Percentage must be an amount"),
+
+  body("invoiceId")
+    .notEmpty()
+    .withMessage("Invoice ID is required")
+    .matches(/^\d{3}-\d{2}-\d{4}$/)
+    .withMessage("Invoice ID must be in the format XXX-XX-XXXX"),
+
+  body("payment")
+    .notEmpty()
+    .withMessage("Payment is required")
+    .isString()
+    .withMessage("Payment must be a string")
+    .trim(),
+
+  body("productLine")
+    .notEmpty()
+    .withMessage("Product Line is required")
+    .isString()
+    .withMessage("Product Line must be a string")
+    .trim(),
+
+body("quantity")
+  .notEmpty()
+  .withMessage("Quantity is required")
+  .isInt()
+  .withMessage("Quantity must be an integer"),
+
+  body("rating")
+    .optional()
+    .isFloat()
+    .withMessage("Rating must be a valid float"),
+
+body("tax")
+  .notEmpty()
+  .withMessage("Tax is required")
+  .isFloat()
+  .withMessage("Tax must be an amount"),
+
+  body("time")
+    .notEmpty()
+    .withMessage("Time is required")
+    .isTime()
+    .withMessage("Time must be a valid time"),
+
+body("total")
+  .notEmpty()
+  .withMessage("Total is required")
+  .isFloat()
+  .withMessage("Total must be an amount"),
+
+  body("unitPrice")
+    .notEmpty()
+    .withMessage("Unit Price is required")
+    .isFloat()
+    .withMessage("Unit Price must be an amount"),
 
   checkValidation,
 ];
 
-module.exports = updateCustomerRules;
+module.exports = updateSalesRules;

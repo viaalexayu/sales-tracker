@@ -1,6 +1,6 @@
 const { Router } = require("express");
-// const createCustomerRules = require("./middlewares/create-customers-rules");
-// const updateCustomerRules = require("./middlewares/update-customers-rules");
+const createSalesRules = require("./middlewares/create-sales-rules");
+const updateSalesRules = require("./middlewares/update-sales-rules");
 
 const SalesModel = require("./sales-model");
 
@@ -26,15 +26,34 @@ salesRoute.get("/sales/:id", async (req, res) => {
     }
 });
 
-// //Create a new customer using data from the request body.
-// salesRoute.post("/sales", createCustomerRules, async (req, res) => {
-//     try {
-//         const customer = await CustomerModel.create(req.body)
-//         res.send(customer)
-//     } catch(error) {
-//         res.status(500).send(`500! ${req.method} ${error}.`);
-//     }
-// });
+//Create a new sale using data from the request body.
+// {
+// "_id": "123456789",
+// "invoiceId": "123-45-6789",
+// "branch": "Z",
+// "city": "Toronto",
+// "customerType": "Member",
+// "gender": "Female",
+// "productLine": "Food",
+// "unitPrice": "100.00",
+// "quantity": "2",
+// "tax": "10.0",
+// "total": "210.0",
+// "time": "10:30",
+// "payment": "Ewallet",
+// "cogs": "100.0",
+// "grossMarginPercentage": "25",
+// "grossIncome": "75",
+// "rating": "10"
+// }
+salesRoute.post("/sales", createSalesRules, async (req, res) => {
+    try {
+        const sale = await SalesModel.create(req.body)
+        res.send(sale)
+    } catch(error) {
+        res.status(500).send(`500! ${req.method} ${error}.`);
+    }
+});
 
 // //Update the customer’s fields.
 // salesRoute.put("/customers/:id", updateCustomerRules, async (req, res) => {
