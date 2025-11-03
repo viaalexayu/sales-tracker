@@ -14,7 +14,7 @@ salesRoute.get("/sales", async (req, res) => {
 });
 
 // Retrieve a single sale by ID from the URL parameters.
-//68efddeef2b9480469c21d81
+//690837cf7859e8e35f755fc1
 salesRoute.get("/sales/:id", async (req, res) => {
     const id = req.params.id;
     try {
@@ -28,23 +28,22 @@ salesRoute.get("/sales/:id", async (req, res) => {
 
 //Create a new sale using data from the request body.
 // {
-// "_id": "123456789",
-// "invoiceId": "123-45-6789",
-// "branch": "Z",
-// "city": "Toronto",
-// "customerType": "Member",
-// "gender": "Female",
-// "productLine": "Food",
-// "unitPrice": "100.00",
-// "quantity": "2",
-// "tax": "10.0",
-// "total": "210.0",
-// "time": "10:30",
-// "payment": "Ewallet",
-// "cogs": "100.0",
-// "grossMarginPercentage": "25",
-// "grossIncome": "75",
-// "rating": "10"
+//     "_id": "690837cf4567e8e35f755f13",
+//     "date": "2024-02-03",
+//     "seller": "O",
+//     "buyer": "Via Alexa Yu",
+//     "number": 123456,
+//     "price11kgRefill": 735.75,
+//     "price2_7kgRefill": 0,
+//     "price11kgCylinder": 2200,
+//     "price2_7kgCylinder": 0,
+//     "qty11kgKRefill": 0,
+//     "qty11kgKCylinder": 0,
+//     "qty11kgPRefill": 1,
+//     "qty11kgPCylinder": 0,
+//     "qty2_7kgRefill": 0,
+//     "qty2_7kgCylinder": 0,
+//     "totalPrice": 735.75
 // }
 salesRoute.post("/sales", createSalesRules, async (req, res) => {
     try {
@@ -56,18 +55,15 @@ salesRoute.post("/sales", createSalesRules, async (req, res) => {
 });
 
 //Update a sale's fields.
-//123456789
-//{ "rating": 1 }
 salesRoute.put("/sales/:id", updateSalesRules, async (req, res) => {
     const id = req.params.id;
     try {
-        const sale = await SalesModel.findById(id);
-        if(sale) {            
-            await SalesModel.updateOne(
-                { _id: id },
-                { $set: req.body },
-                { new: true }
-                )
+        const sale = await SalesModel.findByIdAndUpdate(
+            id,
+            { $set: req.body },
+            { new: true, runValidators: true }
+        );
+        if(sale) {
             res.send(sale);
         } else {
             res.status(404).send(`404! ${req.method} ${id} not found.`);
@@ -78,7 +74,6 @@ salesRoute.put("/sales/:id", updateSalesRules, async (req, res) => {
 });
 
 //Delete the sale.
-//123456789
 salesRoute.delete("/sales/:id", async (req, res) => {
     const id = req.params.id;
     try {

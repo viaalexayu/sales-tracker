@@ -4,7 +4,7 @@ const dbUrl = process.env.DB_URL;
 
 async function connectDB(req, res, next) {
     try {
-        await mongoose.connect(dbUrl, { dbName: "supermarket_sales" });
+        await mongoose.connect(dbUrl, { dbName: "gas_sales" });
         console.log("Database is connected!");
         next();
     } catch (error) {
