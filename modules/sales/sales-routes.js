@@ -7,10 +7,16 @@ const SalesModel = require("./sales-model");
 const salesRoute = Router();
 
 // Retrieve all sales from the database.
+// Store managers can see their sales by making a query.
 salesRoute.get("/sales", async (req, res) => {
-    const allSales = await SalesModel.find();
-    if(!allSales) res.send([]);
-    else res.send(allSales);
+    const { seller } = req.query;
+    const filter = seller ? { seller } : {};
+    try {
+        const sales = await SalesModel.find(filter);
+        res.send(sales);
+    } catch (error) {
+        res.status(404).send(`404! ${req.method} ${error}.`);
+    }
 });
 
 // Retrieve a single sale by ID from the URL parameters.
@@ -19,9 +25,9 @@ salesRoute.get("/sales/:id", async (req, res) => {
     const id = req.params.id;
     try {
         const sale = await SalesModel.findById(id);
-        if(sale) res.send(sale);
+        if (sale) res.send(sale);
         else res.status(404).send(`404! ${req.method} ${id} not found.`);
-    } catch(error) {
+    } catch (error) {
         res.status(404).send(`404! ${req.method} ${error}.`);
     }
 });
@@ -49,7 +55,7 @@ salesRoute.post("/sales", createSalesRules, async (req, res) => {
     try {
         const sale = await SalesModel.create(req.body)
         res.send(sale)
-    } catch(error) {
+    } catch (error) {
         res.status(500).send(`500! ${req.method} ${error}.`);
     }
 });
@@ -63,12 +69,12 @@ salesRoute.put("/sales/:id", updateSalesRules, async (req, res) => {
             { $set: req.body },
             { new: true, runValidators: true }
         );
-        if(sale) {
+        if (sale) {
             res.send(sale);
         } else {
             res.status(404).send(`404! ${req.method} ${id} not found.`);
         }
-    } catch(error) {
+    } catch (error) {
         res.status(500).send(`500! ${req.method} ${error}.`);
     }
 });
@@ -78,14 +84,58 @@ salesRoute.delete("/sales/:id", async (req, res) => {
     const id = req.params.id;
     try {
         const sale = await SalesModel.findById(id);
-        if(sale) {            
+        if (sale) {
             await SalesModel.deleteOne({ _id: id })
             res.send(sale);
         } else {
             res.status(404).send(`404! ${req.method} ${id} not found.`);
         }
-    } catch(error) {
+    } catch (error) {
         res.status(500).send(`500! ${req.method} ${error}.`);
+    }
+});
+
+// Operations manager can see a summary of sales per store.
+salesRoute.get("/summary", async (req, res) => {
+    try {
+        const allSales = await SalesModel.find();
+        let T1 = 0;
+        let T2 = 0;
+        let T3 = 0;
+        let O = 0;
+        let W = 0;
+        let others = 0;
+
+        for (let entry of allSales) {
+            if (entry.seller === "T1") {
+                T1 += entry.totalPrice;
+            }
+            else if (entry.seller === "T2") {
+                T2 += entry.totalPrice;
+            }
+            else if (entry.seller === "T3") {
+                T3 += entry.totalPrice;
+            }
+            else if (entry.seller === "O") {
+                O += entry.totalPrice;
+            }
+            else if (entry.seller === "W") {
+                W += entry.totalPrice;
+            }
+            else {
+                if (!isNaN(entry.totalPrice)) {
+                    others += entry.totalPrice;
+                }
+            }
+        }
+
+        res.send(
+            "<p><i>Welcome, Admin!</i></br></br><b>T1 Store:</b> ₱" + T1 +
+            "<br/><b>T2 Store:</b> ₱" + T2 + "<br/><b>T3 Store:</b> ₱" + T3 +
+            "<br/><b>O Store:</b> ₱" + O + "<br/><b>W Store:</b> ₱" + W +
+            "<br/><b>Others:</b> ₱" + others + "</p>");
+    } catch (error) {
+        res.status(404).send(`404! ${req.method} ${error}.`);
     }
 });
 
