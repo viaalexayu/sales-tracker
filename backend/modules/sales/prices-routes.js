@@ -5,15 +5,29 @@ const PricesModel = require("./prices-model");
 const pricesRoute = Router();
 
 // Retrieve all prices from the database.
-// Store managers can see their prices by making a query.
-pricesRoute.get("/prices", async (req, res) => {
-    const { seller } = req.query;
-    const filter = seller ? { seller } : {};
+pricesRoute.get("/", async (req, res) => {
     try {
-        const prices = await PricesModel.find(filter);
+        const prices = await PricesModel.find();
         res.send(prices);
     } catch (error) {
         res.status(404).send(`404! ${req.method} ${error}.`);
+    }
+});
+
+// Retrieve current price from the database.
+pricesRoute.get("/:date", async (req, res) => {
+    console.log(new Date(req.params.date))
+    const date = new Date(req.params.date);
+    console.log(date)
+    try {
+        const price = await PricesModel.findOne({
+            date: { $lte: date }
+        }).sort({ date: -1 });
+
+        if (price) res.send(price);
+        else res.status(404).send(`404! ${req.method} price not found.`);
+    } catch (error) {
+        res.status(500).send(`404! ${req.method} ${error}.`);
     }
 });
 

@@ -1,6 +1,9 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 import "./AddSale.css";
+import Fiesta11kgK from "./assets/Fiesta11kgK.jpg";
+import Fiesta11kgP from "./assets/Fiesta11kgP.jpg";
+import Fiesta2_7kg from "./assets/Fiesta2_7kg.jpg";
 
 function AddSale() {
 
@@ -12,16 +15,16 @@ function AddSale() {
   const [seller, setSeller] = useState("");
   const [buyer, setBuyer] = useState("");
   const [number, setNumber] = useState("");
-  const [price11kgRefill, setPrice11kgRefill] = useState("0");
-  const [price2_7kgCylinder, setPrice2_7kgCylinder] = useState("0");
-  const [price2_7kgRefill, setPrice2_7kgRefill] = useState("0");
-  const [price11kgCylinder, setPrice11kgCylinder] = useState("0");
-  const [qty11kgKCylinder, setQty11kgKCylinder] = useState("0");
-  const [qty11kgKRefill, setQty11kgKRefill] = useState("0");
-  const [qty11kgPCylinder, setQty11kgPCylinder] = useState("0");
-  const [qty11kgPRefill, setQty11kgPRefill] = useState("0");
-  const [qty2_7kgCylinder, setQty2_7kgCylinder] = useState("0");
-  const [qty2_7kgRefill, setQty2_7kgRefill] = useState("0");
+  const [price11kgRefill, setPrice11kgRefill] = useState(0);
+  const [price2_7kgCylinder, setPrice2_7kgCylinder] = useState(0);
+  const [price2_7kgRefill, setPrice2_7kgRefill] = useState(0);
+  const [price11kgCylinder, setPrice11kgCylinder] = useState(0);
+  const [qty11kgKCylinder, setQty11kgKCylinder] = useState(0);
+  const [qty11kgKRefill, setQty11kgKRefill] = useState(0);
+  const [qty11kgPCylinder, setQty11kgPCylinder] = useState(0);
+  const [qty11kgPRefill, setQty11kgPRefill] = useState(0);
+  const [qty2_7kgCylinder, setQty2_7kgCylinder] = useState(0);
+  const [qty2_7kgRefill, setQty2_7kgRefill] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
 
   const [loading, setLoading] = useState(false);
@@ -30,35 +33,18 @@ function AddSale() {
   const [isEditable, setIsEditable] = useState(true);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const total =
-      ((parseInt(qty11kgKRefill) + parseInt(qty11kgPRefill)) * parseFloat(price11kgRefill)) +
-      ((parseInt(qty11kgKCylinder) + parseInt(qty11kgPCylinder)) * parseFloat(price11kgCylinder)) +
-      (parseInt(qty2_7kgRefill) * parseFloat(price2_7kgRefill)) +
-      (parseInt(qty2_7kgCylinder) * parseFloat(price2_7kgCylinder));
-
-    if (!total || isNaN(total)) setTotalPrice(0);
-    else setTotalPrice(total);
-  }, [
-    qty11kgKRefill, qty11kgPRefill,
-    qty11kgKCylinder, qty11kgPCylinder,
-    qty2_7kgRefill, qty2_7kgCylinder,
-    price11kgRefill, price11kgCylinder,
-    price2_7kgRefill, price2_7kgCylinder
-  ]);
-
   const validateForm = () => {
     let newError = {};
-    if (!date) newError.date = 'Date required!';
+    if (!date) newError.date = 'Valid date required!';
     if (!seller) newError.seller = 'Seller required!';
     if (!buyer) newError.buyer = 'Buyer required!';
     if (!number) newError.number = 'Number required!';
-    if (!qty11kgKCylinder) newError.qty11kgKCylinder = 'Quantity required!';
-    if (!qty11kgKRefill) newError.qty11kgKRefill = 'Quantity required!';
-    if (!qty11kgPCylinder) newError.qty11kgPCylinder = 'Quantity required!';
-    if (!qty11kgPRefill) newError.qty11kgPRefill = 'Quantity required!';
-    if (!qty2_7kgCylinder) newError.qty2_7kgCylinder = 'Quantity required!';
-    if (!qty2_7kgRefill) newError.qty2_7kgRefill = 'Quantity required!';
+    if (qty11kgKCylinder == "") newError.qty11kgKCylinder = 'Quantity required!';
+    if (qty11kgKRefill == "") newError.qty11kgKRefill = 'Quantity required!';
+    if (qty11kgPCylinder == "") newError.qty11kgPCylinder = 'Quantity required!';
+    if (qty11kgPRefill == "") newError.qty11kgPRefill = 'Quantity required!';
+    if (qty2_7kgCylinder == "") newError.qty2_7kgCylinder = 'Quantity required!';
+    if (qty2_7kgRefill == "") newError.qty2_7kgRefill = 'Quantity required!';
     setError(newError);
     return Object.keys(newError).length === 0;
   };
@@ -66,10 +52,64 @@ function AddSale() {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!validateForm()) return;
-    fetchData();
+    fetchSalesData();
   };
 
-  const fetchData = async () => {
+  const fetchPricesData = async () => {
+    setLoading(true);
+    setIsEditable(false);
+    try {
+      const res = await fetch("http://localhost:3000/prices/" + date, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json"
+        }
+      });
+
+      if (!res.ok) {
+        const content = await res.json();
+        setError(content.message);
+      }
+
+      else {
+        const content = await res.json();
+        console.log(content)
+
+        const p11C = Number(content.price11kgCylinder) || 0;
+        const p11R = Number(content.price11kgRefill) || 0;
+        const p2C = Number(content.price2_7kgCylinder) || 0;
+        const p2R = Number(content.price2_7kgRefill) || 0;
+
+        setPrice11kgCylinder(p11C);
+        setPrice11kgRefill(p11R);
+        setPrice2_7kgCylinder(p2C);
+        setPrice2_7kgRefill(p2R);
+
+        console.log(p11C);
+        console.log(p11R);
+        console.log(p2C);
+        console.log(p2R);
+
+        const total =
+          (Number(qty11kgKRefill) + Number(qty11kgPRefill)) * p11R +
+          (Number(qty11kgKCylinder) + Number(qty11kgPCylinder)) * p11C +
+          Number(qty2_7kgRefill) * p2R +
+          Number(qty2_7kgCylinder) * p2C;
+
+        setTotalPrice(total);
+      }
+    }
+
+    catch (error) {
+      setError("Network error:" + error.message);
+
+    } finally {
+      setIsEditable(true);
+      setLoading(false);
+    }
+  }
+
+  const fetchSalesData = async () => {
     setLoading(true);
     setIsEditable(false);
 
@@ -120,6 +160,26 @@ function AddSale() {
     }
   }
 
+  useEffect(() => {
+    fetchPricesData();
+  }, [date]);
+
+  useEffect(() => {
+    const total =
+      (qty11kgKRefill + qty11kgPRefill) * price11kgRefill +
+      (qty11kgKCylinder + qty11kgPCylinder) * price11kgCylinder +
+      qty2_7kgRefill * price2_7kgRefill +
+      qty2_7kgCylinder * price2_7kgCylinder;
+
+    setTotalPrice(total || 0);
+  }, [
+    qty11kgKRefill, qty11kgPRefill,
+    qty11kgKCylinder, qty11kgPCylinder,
+    qty2_7kgRefill, qty2_7kgCylinder,
+    price11kgRefill, price11kgCylinder,
+    price2_7kgRefill, price2_7kgCylinder
+  ]);
+
   return (
     <div className="body">
       <h1>Add New Sale</h1>
@@ -130,6 +190,7 @@ function AddSale() {
             <label>Date:&nbsp;
               <input
                 type="date"
+                max={formattedDate}
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
                 disabled={!isEditable}
@@ -175,43 +236,21 @@ function AddSale() {
               {error.number && <p className="error">{error.number}</p>}
             </div>
             <br /> <br />
-            <br /> <br />
             <h2>Total Price: ₱{totalPrice}</h2>
 
           </div>
           <div className="section">
-            <img src="./src/Fiesta11kgK.jpg" width="200px"></img>
+            <img src={Fiesta11kgK} width="200px"></img>
             <br />
-            <label>Cylinder Price:&nbsp;
-              <input
-                type="number"
-                min="0"
-                max="99"
-                value={price11kgCylinder}
-                onChange={(e) => setPrice11kgCylinder(e.target.value)}
-                disabled={!isEditable}
-              />
-            </label>
+            <h3>11kg - K type</h3>
             <br />
-            <label>Refill Price:&nbsp;
-              <input
-                type="number"
-                min="0"
-                max="99"
-                value={price11kgRefill}
-                onChange={(e) => setPrice11kgRefill(e.target.value)}
-                disabled={!isEditable}
-              />
-            </label>
-            <br />
-            <p>K type</p>
             <label>Cylinder Quantity:&nbsp;
               <input
                 type="number"
                 min="0"
                 max="99"
                 value={qty11kgKCylinder}
-                onChange={(e) => setQty11kgKCylinder(e.target.value)}
+                onChange={(e) => setQty11kgKCylinder(Number(e.target.value) || 0)}
                 disabled={!isEditable}
               />
             </label>
@@ -224,7 +263,7 @@ function AddSale() {
                 min="0"
                 max="99"
                 value={qty11kgKRefill}
-                onChange={(e) => setQty11kgKRefill(e.target.value)}
+                onChange={(e) => setQty11kgKRefill(Number(e.target.value) || 0)}
                 disabled={!isEditable}
               />
             </label>
@@ -233,16 +272,17 @@ function AddSale() {
             </div>
           </div>
           <div className="section">
-            <img src="./src/Fiesta11kgP.jpg" width="200px"></img>
+            <img src={Fiesta11kgP} width="200px"></img>
             <br />
-            <p>P type</p>
+            <h3>11kg - P type</h3>
+            <br />
             <label>Cylinder Quantity:&nbsp;
               <input
                 type="number"
                 min="0"
                 max="99"
                 value={qty11kgPCylinder}
-                onChange={(e) => setQty11kgPCylinder(e.target.value)}
+                onChange={(e) => setQty11kgPCylinder(Number(e.target.value) || 0)}
                 disabled={!isEditable}
               />
             </label>
@@ -255,7 +295,7 @@ function AddSale() {
                 min="0"
                 max="99"
                 value={qty11kgPRefill}
-                onChange={(e) => setQty11kgPRefill(e.target.value)}
+                onChange={(e) => setQty11kgPRefill(Number(e.target.value) || 0)}
                 disabled={!isEditable}
               />
             </label>
@@ -264,29 +304,9 @@ function AddSale() {
             </div>
           </div>
           <div className="section">
-            <img src="./src/Fiesta2_7kg.jpg" width="200px"></img>
+            <img src={Fiesta2_7kg} width="200px"></img>
             <br />
-            <label>Cylinder Price:&nbsp;
-              <input
-                type="number"
-                min="0"
-                max="99"
-                value={price2_7kgCylinder}
-                onChange={(e) => setPrice2_7kgCylinder(e.target.value)}
-                disabled={!isEditable}
-              />
-            </label>
-            <br />
-            <label>Refill Price:&nbsp;
-              <input
-                type="number"
-                min="0"
-                max="99"
-                value={price2_7kgRefill}
-                onChange={(e) => setPrice2_7kgRefill(e.target.value)}
-                disabled={!isEditable}
-              />
-            </label>
+            <h3>2.7kg</h3>
             <br />
             <label>Cylinder Quantity:&nbsp;
               <input
@@ -294,7 +314,7 @@ function AddSale() {
                 min="0"
                 max="99"
                 value={qty2_7kgCylinder}
-                onChange={(e) => setQty2_7kgCylinder(e.target.value)}
+                onChange={(e) => setQty2_7kgCylinder(Number(e.target.value) || 0)}
                 disabled={!isEditable}
               />
             </label>
@@ -307,7 +327,7 @@ function AddSale() {
                 min="0"
                 max="99"
                 value={qty2_7kgRefill}
-                onChange={(e) => setQty2_7kgRefill(e.target.value)}
+                onChange={(e) => setQty2_7kgRefill(Number(e.target.value) || 0)}
                 disabled={!isEditable}
               />
             </label>
@@ -315,10 +335,10 @@ function AddSale() {
               {error.qty2_7kgRefill && <p className="error">{error.qty2_7kgRefill}</p>}
             </div>
           </div>
-                  </div>
-          <br />
-          <button className="btn" type="submit" disabled={!isEditable}>Submit</button>
-          <br /> <br />
+        </div>
+        <br />
+        <button className="btn" type="submit" disabled={!isEditable}>Submit</button>
+        <br /> <br />
       </form >
     </div >
   )
