@@ -16,9 +16,7 @@ pricesRoute.get("/", async (req, res) => {
 
 // Retrieve current price from the database.
 pricesRoute.get("/:date", async (req, res) => {
-    console.log(new Date(req.params.date))
     const date = new Date(req.params.date);
-    console.log(date)
     try {
         const price = await PricesModel.findOne({
             date: { $lte: date }

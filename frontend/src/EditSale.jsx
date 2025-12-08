@@ -5,11 +5,7 @@ import Fiesta11kgK from "./assets/Fiesta11kgK.jpg";
 import Fiesta11kgP from "./assets/Fiesta11kgP.jpg";
 import Fiesta2_7kg from "./assets/Fiesta2_7kg.jpg";
 
-function AddSale() {
-
-  const timestamp = Date.now();
-  const dateNow = new Date(timestamp);
-  const formattedDate = dateNow.toISOString().substring(0, 10);
+function EditSale() {
 
   const [date, setDate] = useState(formattedDate);
   const [seller, setSeller] = useState("");
@@ -192,7 +188,7 @@ function AddSale() {
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
                 disabled={!isEditable}
-                onKeyDown={preventKeyboardInput}
+                        onKeyDown={preventKeyboardInput}
               />
             </label>
             <div className="error-space">
@@ -348,4 +344,4 @@ function AddSale() {
   )
 }
 
-export default AddSale;
+export default EditSale;

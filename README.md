@@ -9,7 +9,7 @@
 * Added summary functionality
 
 **Phase 4: Things I did**
-* Added frontend for all routes
+* Added frontend for most routes
 * Added a second database for prices
 
 **Phase 5: Things I did**

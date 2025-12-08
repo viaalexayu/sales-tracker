@@ -1,0 +1,9 @@
+th,
+td {
+    border-bottom: 1px solid #ddd;
+    padding: 10px;
+}
+
+button {
+    margin: 0px;
+}
