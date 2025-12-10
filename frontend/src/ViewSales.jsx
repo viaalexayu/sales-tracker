@@ -75,6 +75,7 @@ function ViewSales() {
 
     return (
         <div className="max-w-4xl mx-auto my-8 p-4 shadow-lg rounded-lg bg-white">
+            <br />
             <h1>View Sales</h1>
             <br /><br />
             <table className="table-auto w-full text-left border-collapse border border-gray-300">

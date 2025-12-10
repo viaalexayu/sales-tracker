@@ -164,7 +164,7 @@ function AddSale() {
         const content = await res.json();
         console.log(content);
         alert("Successfully added new sale!");
-        navigate('/');
+        navigate('/add-sale');
       }
     }
 

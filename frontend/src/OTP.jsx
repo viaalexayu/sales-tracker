@@ -83,7 +83,7 @@ function OTP() {
     <div className="body">
       <h1>Welcome.</h1>
       <form onSubmit={handleSubmit}>
-        <div className="container">
+        <div className="card">
           <label>OTP:&nbsp;
             <input
               type="text"
