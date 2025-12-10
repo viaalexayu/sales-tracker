@@ -10,7 +10,7 @@ const cors = require("cors");
 const allowedOrigin = process.env.FRONTEND_URL || "http://localhost:5173";
 
 const port = 3000;
-const hostname = "localhost";
+const hostname = "0.0.0.0";
 const server = express();
 
 server.use(cors({

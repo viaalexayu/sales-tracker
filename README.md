@@ -13,4 +13,5 @@
 * Added a second database for prices
 
 **Phase 5: Things I did**
-* Nothing yet
+* Added authentication and authorization
+* Added frontend for those routes
