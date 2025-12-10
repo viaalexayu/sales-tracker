@@ -25,7 +25,13 @@ function ViewSales() {
 
             if (!res.ok) {
                 const content = await res.json();
-                setError(content.message);
+                navigate("/error", {
+                    state: {
+                        errorCode: res.status,
+                        errorMessage: content.message || "Fetch error"
+                    }
+                });
+                return;
             }
 
             else {
@@ -36,7 +42,12 @@ function ViewSales() {
         }
 
         catch (error) {
-            setError("Network error:" + error.message);
+            navigate("/error", {
+                state: {
+                    errorCode: 500,
+                    errorMessage: "Network error: " + error.message
+                }
+            });
 
         } finally {
             setIsEditable(true);
@@ -97,7 +108,7 @@ function ViewSales() {
                             <td className="px-6 py-3">{sale.qty2_7kgCylinde}</td>
                             <td className="px-6 py-3">{sale.qty2_7kgRefill}</td>
                             <td className="px-6 py-3">{sale.totalPrice}</td>
-                            <td className="px-6 py-3"><Link to = "/edit-sale"><button className="btn">Edit</button></Link></td>
+                            <td className="px-6 py-3"><Link to="/edit-sale"><button className="btn">Edit</button></Link></td>
                             <td className="px-6 py-3"><button className="btn">Delete</button></td>
                         </tr>
                     ))}

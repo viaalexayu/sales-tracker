@@ -69,7 +69,7 @@ usersRoute.post("/login", loginRules, async (req, res) => {
     });
   }
   sendEmail(user.email, "OTP Code", addedOTP.otp);
-  res.send("Successfully sent OTP to email!");
+  res.json("Successfully sent OTP to email!");
 });
 
 /**
@@ -89,7 +89,17 @@ usersRoute.post("/verify-login", verifyLoginRules, async (req, res) => {
   if (otp == otpUser.otp) {
     // generate access token
     const token = encodeToken(user);
-    res.json({ user, token });
+
+    const isProd = process.env.NODE_ENV === "production";
+
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: isProd,
+      sameSite: isProd ? "None" : "Lax",
+      maxAge: 1000 * 60 * 180
+    });
+    res.json({ message: "Login successful" });
+
   }
   else {
     return res.status(401).send({
@@ -199,6 +209,16 @@ usersRoute.delete("/accounts/:id", authorize(["admin"]), async (req, res) => {
       .send({ errorMessage: `Oops! User couldn't be deleted!` });
   }
   res.json(deletedUser);
+});
+
+usersRoute.post("/logout", (req, res) => {
+  res.cookie("token", "", {
+    httpOnly: true,
+    expires: new Date(0),
+    sameSite: "strict",
+    secure: process.env.NODE_ENV === "production",
+  });
+  res.json({ message: "Logged out successfully" });
 });
 
 module.exports = { usersRoute };

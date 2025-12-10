@@ -1,0 +1,102 @@
+:root {
+  --navbar-height: 64px;
+  --text-color: #172853;
+  --hover-color: #666;
+  --primary-color: #000;
+  --primary-hover-color: #444;
+  --bg-white: #fff;
+  --spacing-xl: 24px;
+  --container-width: 1200px;
+  --transition-fast: 0.2s ease;
+}
+
+.navbar {
+  background-color: #F5F5F8;
+  color: var(--text-color);
+  height: var(--navbar-height);
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  font-family: var(--menu-font-family);
+  text-transform: uppercase;
+}
+
+.navbar-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+  padding: 0 var(--spacing-xl);
+  max-width: var(--container-width);
+  margin: 0 auto;
+}
+
+.navbar-menu {
+  display: flex;
+  list-style: none;
+}
+
+.navbar-menu li {
+  margin: 0 1rem;
+}
+
+.navbar-menu a {
+  color: var(--text-color);
+  text-decoration: none;
+  font-size: 1rem;
+  transition: color var(--transition-fast);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+  line-height: 2;
+  gap: 0.25rem;
+}
+
+.navbar-menu a:hover {
+  color: var(--hover-color);
+}
+
+.navbar-action {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.navbar-logout {
+    background: #172853;
+    border: 1px solid #172853;
+    border-radius: 6px;
+    box-shadow: rgba(0, 0, 0, 0.1) 1px 2px 4px;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    cursor: pointer;
+    display: inline-block;
+    font-family: proxima-nova, "proxima nova", sans-serif;
+    font-size: 16px;
+    font-weight: 800;
+    line-height: 16px;
+    min-height: 40px;
+    outline: 0;
+    padding: 12px 14px;
+    text-align: center;
+    text-rendering: geometricprecision;
+    text-transform: none;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    vertical-align: middle;
+}
+
+.navbar-logout:hover,
+.navbar-logout:active {
+    background-color: initial;
+    background-position: 0 0;
+    color: #172853;
+}
+
+.navbar-logout:active {
+    opacity: .5;
+}

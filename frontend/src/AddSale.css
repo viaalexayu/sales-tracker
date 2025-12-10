@@ -1,8 +1,12 @@
 body {
     background-image: linear-gradient(white, white, #C9CAD9);
+    padding-top: 30px;
 }
 
-p, h1, h2, h3 {
+p,
+h1,
+h2,
+h3 {
     font-family: proxima-nova, "proxima nova", sans-serif;
     margin: 0px;
     color: #172853;
@@ -88,5 +92,5 @@ button:active {
 }
 
 .error-space {
-  min-height: 15px;
+    min-height: 15px;
 }

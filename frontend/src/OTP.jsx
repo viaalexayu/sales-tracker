@@ -1,11 +1,14 @@
 import { useState } from "react";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import "./Welcome.css";
 
-function Welcome() {
+function OTP() {
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const location = useLocation();
+  const emailProp = location.state?.email || '';
+
+  const [email, setEmail] = useState(emailProp);
+  const [otp, setOTP] = useState("");
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -15,8 +18,7 @@ function Welcome() {
 
   const validateForm = () => {
     let newError = {};
-    if (!email) newError.email = 'Valid email required!';
-    if (!password) newError.password = 'Password required!';
+    if (!otp) newError.otp = 'OTP required!';
     setError(newError);
     return Object.keys(newError).length === 0;
   };
@@ -32,15 +34,16 @@ function Welcome() {
     setIsEditable(false);
 
     try {
-      const res = await fetch("http://localhost:3000/users/login", {
+      const res = await fetch("http://localhost:3000/users/verify-login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
           email: email,
-          password: password,
-        })
+          otp: otp,
+        }),
+        credentials: "include"
       });
 
       if (!res.ok) {
@@ -57,7 +60,8 @@ function Welcome() {
       else {
         const content = await res.json();
         console.log(content);
-        navigate('/verify-login', { state: { email } });
+        alert("Successfully added new sale!");
+        navigate('/verify-login');
       }
     }
 
@@ -68,6 +72,7 @@ function Welcome() {
           errorMessage: "Network error: " + error.message
         }
       });
+
     } finally {
       setIsEditable(true);
       setLoading(false);
@@ -78,36 +83,24 @@ function Welcome() {
     <div className="body">
       <h1>Welcome.</h1>
       <form onSubmit={handleSubmit}>
-        <div className="card">
-          <label>Email:&nbsp;
+        <div className="container">
+          <label>OTP:&nbsp;
             <input
               type="text"
-              className="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              value={otp}
+              onChange={(e) => setOTP(e.target.value)}
               disabled={!isEditable}
             />
           </label>
           <div className="error-space">
-            {error.email && <p className="error">{error.email}</p>}
-          </div>
-          <label>Password:&nbsp;
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              disabled={!isEditable}
-            />
-          </label>
-          <div className="error-space">
-            {error.password && <p className="error">{error.password}</p>}
+            {error.otp && <p className="error">{error.otp}</p>}
           </div>
           <br />
-          <button className="btn" type="submit" disabled={!isEditable}>Login</button>
+          <button className="btn" type="submit" disabled={!isEditable}>Verify Login</button>
         </div >
       </form >
     </div >
   )
 }
 
-export default Welcome;
+export default OTP;

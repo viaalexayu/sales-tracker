@@ -4,8 +4,10 @@ import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 
 import AddSale from "./AddSale";
 import Welcome from "./Welcome";
+import OTP from "./OTP";
 import ViewSales from "./ViewSales";
-import EditSale from "./EditSale";
+import Navbar from "./Navbar";
+import Error from "./Error";
 
 function App() {
   const [productsInCart, setProductInCart] = useState([]);
@@ -17,12 +19,13 @@ function App() {
 
   return (
     <BrowserRouter>
-
+  <Navbar />
       <Routes>
         <Route path="/" element={<Welcome />} />
+        <Route path="/verify-login" element={<OTP />} />
         <Route path="/add-sale" element={<AddSale />} />
-        <Route path="/edit-sale" element={<EditSale />} />
         <Route path="/view-sales" element={<ViewSales />} />
+                <Route path="/error" element={<Error />} />
       </Routes>
     </BrowserRouter>
   );

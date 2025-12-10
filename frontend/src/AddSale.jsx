@@ -72,7 +72,13 @@ function AddSale() {
 
       if (!res.ok) {
         const content = await res.json();
-        setError(content.message);
+        navigate("/error", {
+          state: {
+            errorCode: res.status,
+            errorMessage: content.message || "Fetch error"
+          }
+        });
+        return;
       }
 
       else {
@@ -99,7 +105,12 @@ function AddSale() {
     }
 
     catch (error) {
-      setError("Network error:" + error.message);
+      navigate("/error", {
+        state: {
+          errorCode: 500,
+          errorMessage: "Network error: " + error.message
+        }
+      });
 
     } finally {
       setIsEditable(true);
@@ -138,7 +149,13 @@ function AddSale() {
 
       if (!res.ok) {
         const content = await res.json();
-        setError(content.message);
+        navigate("/error", {
+          state: {
+            errorCode: res.status,
+            errorMessage: content.message || "Fetch error"
+          }
+        });
+        return;
       }
 
       else {
@@ -150,7 +167,12 @@ function AddSale() {
     }
 
     catch (error) {
-      setError("Network error:" + error.message);
+      navigate("/error", {
+        state: {
+          errorCode: 500,
+          errorMessage: "Network error: " + error.message
+        }
+      });
 
     } finally {
       setIsEditable(true);
@@ -342,7 +364,6 @@ function AddSale() {
         </div>
         <br />
         <button className="btn" type="submit" disabled={!isEditable}>Submit</button>
-        <br /> <br />
       </form >
     </div >
   )

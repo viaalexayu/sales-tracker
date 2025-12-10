@@ -6,12 +6,17 @@ const { pricesRoute } = require("./modules/sales/prices-routes");
 const { usersRoute } = require("./modules/users/users-routes");
 const connectDB = require("./shared/middlewares/connect-db");
 const cors = require("cors");
+const allowedOrigin = process.env.FRONTEND_URL || "http://localhost:5173";
 
 const port = 3000;
 const hostname = "localhost";
 const server = express();
 
-server.use(cors());
+server.use(cors({
+  origin: allowedOrigin,
+  credentials: true
+}));
+
 server.use(express.json());
 server.use(express.urlencoded({ extended: true }));
 

@@ -1,6 +1,7 @@
 const { Router } = require("express");
 const createSalesRules = require("./middlewares/create-sales-rules");
 const updateSalesRules = require("./middlewares/update-sales-rules");
+const authorize = require("../../shared/middlewares/authorize");
 
 const SalesModel = require("./sales-model");
 
