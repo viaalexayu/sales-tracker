@@ -18,7 +18,7 @@ function Navbar() {
     setLoading(true);
 
     try {
-      const res = await fetch("http://localhost:3000/users/logout", {
+      const res = await fetch(`${import.meta.env.API_URL}users/logout`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

@@ -34,7 +34,7 @@ function OTP() {
     setIsEditable(false);
 
     try {
-      const res = await fetch("http://localhost:3000/users/verify-login", {
+      const res = await fetch(`${import.meta.env.API_URL}users/verify-login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

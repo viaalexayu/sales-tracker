@@ -16,7 +16,7 @@ function ViewSales() {
         setIsEditable(false);
 
         try {
-            const res = await fetch("http://localhost:3000/sales", {
+            const res = await fetch(`${import.meta.env.API_URL}sales`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json"
