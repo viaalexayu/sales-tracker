@@ -1,32 +1,48 @@
-const nodemailer = require("nodemailer");
+const { google } = require("googleapis");
 
-const transporter = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
-    user: process.env.GOOGLE_EMAIL,
-    pass: process.env.GOOGLE_PASSWORD,
-  },
-});
+const CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
+const CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
+const REFRESH_TOKEN = process.env.GOOGLE_REFRESH_TOKEN;
+const SENDER_EMAIL = process.env.GOOGLE_SENDER_EMAIL;
+
+const oAuth2Client = new google.auth.OAuth2(CLIENT_ID, CLIENT_SECRET, "https://developers.google.com/oauthplayground");
+oAuth2Client.setCredentials({ refresh_token: REFRESH_TOKEN });
+
+const gmail = google.gmail({ version: "v1", auth: oAuth2Client });
 
 async function sendEmail(to, subject, message) {
-  if (!to) {
-    console.error("Email address is missing!");
-  } else if (!subject) {
-    console.error("Subject is missing!");
-  } else if (!message) {
-    console.error("Message is missing!");
-  } else {
-
-    transporter.sendMail({
-      from: process.env.GOOGLE_EMAIL,
-      to: to,
-      subject: subject,
-      text: "OTP Code is " + message.toString(),
-    }, (err, info) => {
-      if (err) console.error(err);
-      else console.log("Successfully sent OTP to email!", info.response);
-    });
+  if (!to || !subject || !message) {
+    console.error("Missing required email parameters!");
+    return false;
   }
-};
+
+  try {
+    const rawEmail = [
+      `From: ${SENDER_EMAIL}`,
+      `To: ${to}`,
+      `Subject: ${subject}`,
+      "Content-Type: text/html; charset=UTF-8",
+      "",
+      `<p>${message}</p>`,
+    ];
+
+    const encodedEmail = Buffer.from(rawEmail.join("\n"))
+      .toString("base64")
+      .replace(/\+/g, "-")
+      .replace(/\//g, "_")
+      .replace(/=+$/, "");
+
+    await gmail.users.messages.send({
+      userId: "me",
+      requestBody: { raw: encodedEmail },
+    });
+
+    console.log("Successfully sent email!");
+    return true;
+  } catch (error) {
+    console.error("Error sending email:", error);
+    return false;
+  }
+}
 
 module.exports = sendEmail;
