@@ -67,7 +67,8 @@ function AddSale() {
         method: "GET",
         headers: {
           "Content-Type": "application/json"
-        }
+        },
+        credentials: "include"
       });
 
       if (!res.ok) {
@@ -144,7 +145,8 @@ function AddSale() {
           qty2_7kgCylinder: qty2_7kgCylinder,
           qty2_7kgRefill: qty2_7kgRefill,
           totalPrice: totalPrice
-        })
+        }),
+        credentials: "include"
       });
 
       if (!res.ok) {

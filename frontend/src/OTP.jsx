@@ -60,8 +60,8 @@ function OTP() {
       else {
         const content = await res.json();
         console.log(content);
-        alert("Successfully added new sale!");
-        navigate('/verify-login');
+        alert("Successfully logged in!");
+        navigate('/add-sale');
       }
     }
 

@@ -20,7 +20,8 @@ function ViewSales() {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json"
-                }
+                },
+                credentials: "include"
             });
 
             if (!res.ok) {
@@ -101,11 +102,11 @@ function ViewSales() {
                             <td className="px-6 py-3">{sale.number}</td>
                             <td className="px-6 py-3">{sale.seller}</td>
                             <td className="px-6 py-3">{sale.buyer}</td>
-                            <td className="px-6 py-3">{sale.qty11kgKCylinde}</td>
+                            <td className="px-6 py-3">{sale.qty11kgKCylinder}</td>
                             <td className="px-6 py-3">{sale.qty11kgKRefill}</td>
-                            <td className="px-6 py-3">{sale.qty11kgPCylinde}</td>
+                            <td className="px-6 py-3">{sale.qty11kgPCylinder}</td>
                             <td className="px-6 py-3">{sale.qty11kgPRefill}</td>
-                            <td className="px-6 py-3">{sale.qty2_7kgCylinde}</td>
+                            <td className="px-6 py-3">{sale.qty2_7kgCylinder}</td>
                             <td className="px-6 py-3">{sale.qty2_7kgRefill}</td>
                             <td className="px-6 py-3">{sale.totalPrice}</td>
                             <td className="px-6 py-3"><Link to="/edit-sale"><button className="btn">Edit</button></Link></td>

@@ -1,6 +1,7 @@
 require('dotenv').config();
 
 const express = require("express");
+const cookieParser = require("cookie-parser");
 const { salesRoute } = require("./modules/sales/sales-routes");
 const { pricesRoute } = require("./modules/sales/prices-routes");
 const { usersRoute } = require("./modules/users/users-routes");
@@ -19,6 +20,7 @@ server.use(cors({
 
 server.use(express.json());
 server.use(express.urlencoded({ extended: true }));
+server.use(cookieParser());
 
 server.use(connectDB)
 server.use("/sales", salesRoute);

@@ -25,7 +25,7 @@ function App() {
         <Route path="/verify-login" element={<OTP />} />
         <Route path="/add-sale" element={<AddSale />} />
         <Route path="/view-sales" element={<ViewSales />} />
-                <Route path="/error" element={<Error />} />
+        <Route path="/error" element={<Error />} />
       </Routes>
     </BrowserRouter>
   );
