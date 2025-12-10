@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from 'react-router-dom';
+import "./Welcome.css";
 
 function Welcome() {
 
@@ -15,7 +16,7 @@ function Welcome() {
   const validateForm = () => {
     let newError = {};
     if (!email) newError.email = 'Valid email required!';
-    if (!password) newError.password = 'password required!';
+    if (!password) newError.password = 'Password required!';
     setError(newError);
     return Object.keys(newError).length === 0;
   };
@@ -66,13 +67,13 @@ function Welcome() {
 
   return (
     <div className="body">
-      <h1>Welcome</h1>
-
+      <h1>Welcome.</h1>
       <form onSubmit={handleSubmit}>
         <div className="container">
           <label>Email:&nbsp;
             <input
               type="text"
+              className="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               disabled={!isEditable}
@@ -81,7 +82,6 @@ function Welcome() {
           <div className="error-space">
             {error.email && <p className="error">{error.email}</p>}
           </div>
-          <br /> <br />
           <label>Password:&nbsp;
             <input
               type="password"
@@ -93,9 +93,8 @@ function Welcome() {
           <div className="error-space">
             {error.password && <p className="error">{error.password}</p>}
           </div>
-          <br /> <br />
+          <br />
           <button className="btn" type="submit" disabled={!isEditable}>Login</button>
-          <br /> <br />
         </div >
       </form >
     </div >

@@ -2,48 +2,30 @@ body {
     background-image: linear-gradient(white, white, #C9CAD9);
 }
 
-p, h1, h2, h3 {
+p,
+h1,
+h2,
+h3 {
     font-family: proxima-nova, "proxima nova", sans-serif;
     margin: 0px;
     color: #172853;
 }
 
-.inputNumber::-webkit-inner-spin-button,
-.inputNumber::-webkit-outer-spin-button {
-    opacity: 1;
-    height: 30px;
-}
-
-.inputNumber {
-    width: 50px;
-    height: 30px;
-    font-size: large;
-}
-
 .container {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     flex-wrap: wrap;
-}
-
-.section {
     margin: 15px;
     padding: 40px;
     flex: 1;
     min-width: 200px;
-    justify-content: center;
-    align-items: center;
     border-radius: 10px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.05), 0 6px 20px 0 rgba(0, 0, 0, 0.04);
     background-color: white;
 }
 
-.section:hover {
+.container:hover {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-}
-
-.section1 {
-    flex-grow: 2;
 }
 
 button {
@@ -88,5 +70,13 @@ button:active {
 }
 
 .error-space {
-  min-height: 15px;
+    min-height: 15px;
+}
+
+label {
+    text-align: left;
+}
+
+.email {
+    width: 190px;
 }

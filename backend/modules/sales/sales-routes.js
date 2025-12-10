@@ -8,7 +8,7 @@ const salesRoute = Router();
 
 // Retrieve all sales from the database.
 // Store managers can see their sales by making a query.
-salesRoute.get("/", async (req, res) => {
+salesRoute.get("/", authorize(["admin"]), async (req, res) => {
     const { seller } = req.query;
     const filter = seller ? { seller } : {};
     try {
@@ -21,7 +21,7 @@ salesRoute.get("/", async (req, res) => {
 
 // Retrieve a single sale by ID from the URL parameters.
 //690837cf7859e8e35f755fc1
-salesRoute.get("/:id", async (req, res) => {
+salesRoute.get("/:id", authorize(["admin"]), async (req, res) => {
     const id = req.params.id;
     try {
         const sale = await SalesModel.findById(id);
@@ -51,7 +51,7 @@ salesRoute.get("/:id", async (req, res) => {
 //     "qty2_7kgCylinder": 0,
 //     "totalPrice": 735.75
 // }
-salesRoute.post("/", createSalesRules, async (req, res) => {
+salesRoute.post("/", createSalesRules, authorize(["admin", "store"]), async (req, res) => {
     try {
         const sale = await SalesModel.create(req.body)
         res.send(sale)
@@ -61,7 +61,7 @@ salesRoute.post("/", createSalesRules, async (req, res) => {
 });
 
 //Update a sale's fields.
-salesRoute.put("/:id", updateSalesRules, async (req, res) => {
+salesRoute.put("/:id", authorize(["admin"]), updateSalesRules, async (req, res) => {
     const id = req.params.id;
     try {
         const sale = await SalesModel.findByIdAndUpdate(
@@ -80,7 +80,7 @@ salesRoute.put("/:id", updateSalesRules, async (req, res) => {
 });
 
 //Delete the sale.
-salesRoute.delete("/:id", async (req, res) => {
+salesRoute.delete("/:id", authorize(["admin"]), async (req, res) => {
     const id = req.params.id;
     try {
         const sale = await SalesModel.findById(id);
@@ -96,7 +96,7 @@ salesRoute.delete("/:id", async (req, res) => {
 });
 
 // Operations manager can see a summary of sales per store.
-salesRoute.get("/summary", async (req, res) => {
+salesRoute.get("/summary", authorize(["admin"]), async (req, res) => {
     try {
         const allSales = await SalesModel.find();
         let T1 = 0;

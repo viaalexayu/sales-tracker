@@ -3,6 +3,7 @@ require('dotenv').config();
 const express = require("express");
 const { salesRoute } = require("./modules/sales/sales-routes");
 const { pricesRoute } = require("./modules/sales/prices-routes");
+const { usersRoute } = require("./modules/users/users-routes");
 const connectDB = require("./shared/middlewares/connect-db");
 const cors = require("cors");
 
@@ -17,6 +18,7 @@ server.use(express.urlencoded({ extended: true }));
 server.use(connectDB)
 server.use("/sales", salesRoute);
 server.use("/prices", pricesRoute);
+server.use("/users", usersRoute);
 
 server.use((error, req, res, next) => {
   console.log(error);
