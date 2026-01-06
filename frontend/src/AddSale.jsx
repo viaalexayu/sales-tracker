@@ -63,7 +63,7 @@ function AddSale() {
     setLoading(true);
     setIsEditable(false);
     try {
-      const res = await fetch(`${import.meta.env.API_URL}prices/` + date, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/prices/` + date, {
         method: "GET",
         headers: {
           "Content-Type": "application/json"
@@ -122,9 +122,10 @@ function AddSale() {
   const fetchSalesData = async () => {
     setLoading(true);
     setIsEditable(false);
+    console.log('aaaaah ',`${import.meta.env.VITE_API_URL}/sales`)
 
     try {
-      const res = await fetch(`${import.meta.env.API_URL}sales`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/sales`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -202,6 +203,7 @@ function AddSale() {
     price2_7kgRefill, price2_7kgCylinder
   ]);
 
+  console.log('aaaaah ',`${import.meta.env.VITE_API_URL}//sales`)
   return (
     <div className="body">
       <h1>Add New Sale</h1>
